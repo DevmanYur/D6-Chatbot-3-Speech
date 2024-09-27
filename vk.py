@@ -10,7 +10,7 @@ import google_dialogflow
 logger = logging.getLogger(__name__)
 
 
-def echo(event, vk_api, google_cloud_project):
+def get_answer_vk(event, vk_api, google_cloud_project):
     chat_id = event.user_id
     question = event.text
     random_id = random.randint(1, 1000)
@@ -32,7 +32,7 @@ def start_vk_bot(vk_community_token, google_cloud_project):
     longpoll = VkLongPoll(vk_session)
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            echo(event, vk_api, google_cloud_project)
+            get_answer_vk(event, vk_api, google_cloud_project)
     VkLongPoll(vk_session)
 
 
