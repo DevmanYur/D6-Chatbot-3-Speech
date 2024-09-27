@@ -18,7 +18,7 @@ def get_command_start_tg(update: Update, context: CallbackContext) -> None:
     )
 
 
-def get_answer_tg(update: Update, context: CallbackContext, google_cloud_project) -> None:
+def get_answer_tg(google_cloud_project, update: Update, context: CallbackContext ) -> None:
     question = update.message.text
     chat_id = update.message.chat_id
     answer = google_dialogflow.get_answer(google_cloud_project, f'tg_{chat_id}', question)
