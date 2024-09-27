@@ -7,6 +7,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import random
 import google_dialogflow
 
+
 logger = logging.getLogger(__name__)
 
 
