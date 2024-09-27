@@ -10,11 +10,11 @@ import google_dialogflow
 logger = logging.getLogger(__name__)
 
 
-def echo(event, vk_api):
+def echo(event, vk_api, google_cloud_project):
     chat_id = event.user_id
     question = event.text
     random_id = random.randint(1, 1000)
-    answer = google_dialogflow.get_answer(f'vk_{chat_id}', question)
+    answer = google_dialogflow.get_answer(google_cloud_project, f'vk_{chat_id}', question)
 
     if answer:
         vk_api.messages.send(
@@ -26,13 +26,13 @@ def echo(event, vk_api):
         None
 
 
-def start_vk_bot(vk_community_token):
+def start_vk_bot(vk_community_token, google_cloud_project):
     vk_session = vk.VkApi(token=vk_community_token)
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            echo(event, vk_api)
+            echo(event, vk_api, google_cloud_project)
     VkLongPoll(vk_session)
 
 
@@ -44,7 +44,9 @@ def main():
     load_dotenv()
 
     vk_community_token = os.environ['VK_TOKEN']
-    start_vk_bot(vk_community_token)
+    google_cloud_project = os.environ['GOOGLE_CLOUD_PROJECT']
+
+    start_vk_bot(vk_community_token, google_cloud_project)
 
 
 if __name__ == '__main__':

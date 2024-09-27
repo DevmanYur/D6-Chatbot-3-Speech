@@ -2,8 +2,7 @@ import os
 from google.cloud import dialogflow
 
 
-def get_answer( chat_id, question, language='ru'):
-    google_cloud_project = os.environ['GOOGLE_CLOUD_PROJECT']
+def get_answer(google_cloud_project, chat_id, question, language='ru'):
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(google_cloud_project, chat_id)
     text_input = dialogflow.TextInput(text=question, language_code=language)
