@@ -1,7 +1,12 @@
+import logging
+import os
+
+from dotenv import load_dotenv
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import google_dialogflow
 
+logger = logging.getLogger(__name__)
 
 def get_command_start_tg(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
@@ -30,3 +35,18 @@ def start_tg_bot(telegram_token):
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, get_answer_tg))
     updater.start_polling()
     updater.idle()
+
+
+def main():
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+    )
+
+    load_dotenv()
+
+    telegram_token = os.environ['TG_TOKEN']
+    start_tg_bot(telegram_token)
+
+
+if __name__ == '__main__':
+    main()
